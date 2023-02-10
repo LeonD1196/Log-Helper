@@ -11,6 +11,12 @@ public abstract class SecurityLogEventType {
     HashMap<String, Object> params;
     LogMessageEventTypeImpl logMessageEventType;
 
+    public SecurityLogEventType(String username) {
+        this.username = username;
+        this.params = new HashMap<>();
+        this.logMessageEventType = new LogMessageEventTypeImpl(this);
+    }
+
     public String getEventCode() {
         return eventCode;
     }
