@@ -29,6 +29,10 @@ public abstract class SecurityLogEventType {
         return level;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     String createLogMessage() {
         return logMessageEventType.createLogMessage();
     }

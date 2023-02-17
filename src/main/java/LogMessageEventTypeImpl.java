@@ -7,8 +7,10 @@ public class LogMessageEventTypeImpl implements LogMessageEventType{
 
     @Override
     public String createLogMessage() {
-        return securityLogEventType.getEventCode() + "-" +
-                securityLogEventType.getLevel() + "-" +
+        return "WD-SEC-" +
+                securityLogEventType.getEventCode() + "-" +
+                securityLogEventType.getLevel() + " (" +
+                securityLogEventType.getUsername() + "). " +
                 securityLogEventType.getDescription();
     }
 }

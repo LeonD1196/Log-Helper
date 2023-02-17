@@ -3,13 +3,16 @@ import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.junit.runners.MethodSorters;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SecurityLogHelperTest {
     private Logger logger;
     private CustomAppender appender;
@@ -23,19 +26,6 @@ public class SecurityLogHelperTest {
     }
 
     @Test
-    public void whenAuthorizationFailureCreated_thenAppenderReceivesCorrectEventAndMessage() throws Exception {
-        AuthorizationFailure authorizationFailure = new AuthorizationFailure("leon.dixon");
-        SecurityLogHelper securityLogHelper = new SecurityLogHelper();
-        securityLogHelper.sendLogEvent(authorizationFailure, logger);
-
-        int actualLogSize = appender.getLogs().size();
-        String actualMessage = appender.getLogs().get(0).getMessage();
-
-        assertEquals(1, actualLogSize);
-        assertEquals("AUTH-WARN-Authorization failed for user: leon.dixon", actualMessage);
-    }
-
-    @Test
     public void whenAuthenticationFailureCreated_thenAppenderReceivesCorrectEventAndMessage() throws Exception {
         AuthenticationFailure authenticationFailure = new AuthenticationFailure("leon.dixon");
         SecurityLogHelper securityLogHelper = new SecurityLogHelper();
@@ -45,6 +35,19 @@ public class SecurityLogHelperTest {
         String actualMessage = appender.getLogs().get(0).getMessage();
 
         assertEquals(1, actualLogSize);
-        assertEquals("AUTH-WARN-Authentication failed for user: leon.dixon", actualMessage);
+        assertEquals("WD-SEC-AUTH-WARN (leon.dixon). Authentication failed for user: leon.dixon", actualMessage);
+    }
+
+    @Test
+    public void whenAuthorizationFailureCreated_thenAppenderReceivesCorrectEventAndMessage() throws Exception {
+        AuthorizationFailure authorizationFailure = new AuthorizationFailure("leon.dixon");
+        SecurityLogHelper securityLogHelper = new SecurityLogHelper();
+        securityLogHelper.sendLogEvent(authorizationFailure, logger);
+
+        int actualLogSize = appender.getLogs().size();
+        String actualMessage = appender.getLogs().get(1).getMessage();
+
+        assertEquals(2, actualLogSize); // We have to add log from previous test.
+        assertEquals("WD-SEC-AUTH-WARN (leon.dixon). Authorization failed for user: leon.dixon", actualMessage);
     }
 }
