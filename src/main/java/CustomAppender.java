@@ -15,7 +15,7 @@ import java.util.LinkedList;
         category = Core.CATEGORY_NAME,
         elementType = Appender.ELEMENT_TYPE)
 public class CustomAppender extends AbstractAppender {
-    private final LinkedList<Data> queue = new LinkedList<>();
+    private final LinkedList<String> queue = new LinkedList<>();
 
     protected CustomAppender(String name, Filter filter) {
         super(name, filter, null); // Null is for layout -> We expect frame to resolve default layout.
@@ -30,11 +30,10 @@ public class CustomAppender extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
-        Data eventInfo = new Data(event.getLevel(), event.getMessage().getFormattedMessage());
-        queue.add(eventInfo);
+        queue.add(event.getMessage().getFormattedMessage());
     }
 
-    public LinkedList<Data> getLogs() {
+    public LinkedList<String> getLogs() {
         return queue;
     }
 }

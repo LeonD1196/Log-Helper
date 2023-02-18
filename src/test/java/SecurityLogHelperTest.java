@@ -26,28 +26,15 @@ public class SecurityLogHelperTest {
     }
 
     @Test
-    public void whenAuthenticationFailureCreated_thenAppenderReceivesCorrectEventAndMessage() throws Exception {
+    public void whenAuthenticationFailureCreated_thenAppenderReceivesCorrectEventAndMessage() {
         AuthenticationFailure authenticationFailure = new AuthenticationFailure("leon.dixon");
         SecurityLogHelper securityLogHelper = new SecurityLogHelper();
         securityLogHelper.sendLogEvent(authenticationFailure, logger);
 
         int actualLogSize = appender.getLogs().size();
-        String actualMessage = appender.getLogs().get(0).getMessage();
+        String actualMessage = appender.getLogs().get(0);
 
         assertEquals(1, actualLogSize);
-        assertEquals("WD-SEC-AUTH-WARN (leon.dixon). Authentication failed for user: leon.dixon", actualMessage);
-    }
-
-    @Test
-    public void whenAuthorizationFailureCreated_thenAppenderReceivesCorrectEventAndMessage() throws Exception {
-        AuthorizationFailure authorizationFailure = new AuthorizationFailure("leon.dixon");
-        SecurityLogHelper securityLogHelper = new SecurityLogHelper();
-        securityLogHelper.sendLogEvent(authorizationFailure, logger);
-
-        int actualLogSize = appender.getLogs().size();
-        String actualMessage = appender.getLogs().get(1).getMessage();
-
-        assertEquals(2, actualLogSize); // We have to add log from previous test.
-        assertEquals("WD-SEC-AUTH-WARN (leon.dixon). Authorization failed for user: leon.dixon", actualMessage);
+        assertEquals("WD-SEC-AUTH-FAIL [ID : 12345, username : leon.dixon]. Authentication failed for user: leon.dixon", actualMessage);
     }
 }

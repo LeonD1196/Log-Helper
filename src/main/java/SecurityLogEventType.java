@@ -1,39 +1,31 @@
-import org.apache.logging.log4j.Level;
-
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class SecurityLogEventType {
 
-    String username;
-    String eventCode;
-    String description;
-    Level level;
-    HashMap<String, Object> params;
-    LogMessageEventTypeImpl logMessageEventType;
+    Map<String, String> params;
 
-    public SecurityLogEventType(String username) {
-        this.username = username;
-        this.params = new HashMap<>();
-        this.logMessageEventType = new LogMessageEventTypeImpl(this);
+    public SecurityLogEventType() {
+        params = new HashMap<>();
     }
 
-    public String getEventCode() {
-        return eventCode;
-    }
+    public abstract String getEventCode();
 
-    public String getDescription() {
-        return description;
-    }
+    public abstract String getDescription();
 
-    public Level getLevel() {
-        return level;
-    }
+    public  abstract SecurityLevel getLevel();
 
-    public String getUsername() {
-        return username;
+    public String getParamValues() {
+        StringBuilder values = new StringBuilder("[");
+        for (String key : params.keySet())
+            values.append(String.format("%s : %s, ", key, params.get(key)));
+        values.replace(values.length()-2, values.length(), "]");
+        return values.toString();
     }
 
     String createLogMessage() {
-        return logMessageEventType.createLogMessage();
+        return "WD-SEC-" +
+                getEventCode() + " " + getParamValues() + ". " +
+                getDescription();
     }
 }

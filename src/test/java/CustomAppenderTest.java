@@ -25,10 +25,10 @@ public class CustomAppenderTest {
     }
 
     @Test
-    public void whenLoggerEmitsLoggingEvent_thenAppenderReceivesEvent() throws Exception {
+    public void whenLoggerEmitsLoggingEvent_thenAppenderReceivesEvent() {
         logger.error("This is an error, watch out!");
-        LinkedList<Data> logs = appender.getLogs();
+        LinkedList<String> logs = appender.getLogs();
         assertEquals(1, logs.size());
-        assertEquals("This is an error, watch out!", logs.get(0).getMessage());
+        assertEquals("This is an error, watch out!", logs.get(0));
     }
 }
