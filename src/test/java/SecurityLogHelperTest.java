@@ -35,6 +35,6 @@ public class SecurityLogHelperTest {
         String actualMessage = appender.getLogs().get(0);
 
         assertEquals(1, actualLogSize);
-        assertEquals("WD-SEC-AUTH-FAIL [ID : 12345, username : leon.dixon]. Authentication failed for user: leon.dixon", actualMessage);
+        assertEquals("WD-SEC-AUTH-FAIL [resourceID : 12345, username : leon.dixon]. Authentication failed for user: leon.dixon", actualMessage);
     }
 }

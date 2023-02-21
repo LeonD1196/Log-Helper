@@ -12,7 +12,7 @@ public class AuthenticationFailure extends SecurityLogEventType {
         this.description = String.format("Authentication failed for user: %s", username);
         this.level = SecurityLevel.WARN;
         this.params.put("username", username);
-        this.params.put("ID", "12345");
+        this.params.put("resourceID", "12345");
     }
 
 
